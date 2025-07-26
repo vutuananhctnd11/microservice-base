@@ -16,12 +16,6 @@ public class ApiResponse<T> {
     String status;
     T data;
 
-    public ApiResponse(String message, T data) {
-        this.message = message;
-        this.data = data;
-        this.status = "success";
-    }
-
     public ApiResponse(T data) {
         this.data = data;
         this.status = "success";
