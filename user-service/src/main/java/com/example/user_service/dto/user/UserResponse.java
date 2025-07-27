@@ -1,4 +1,4 @@
-package com.example.user_service.dto;
+package com.example.user_service.dto.user;
 
 import lombok.AccessLevel;
 import lombok.Data;

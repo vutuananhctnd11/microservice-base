@@ -13,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Objects;
 
@@ -22,23 +23,31 @@ import java.util.Objects;
 public class ProductService {
 
     ProductRepository repository;
-    RestTemplate restTemplate;
+    WebClient.Builder webClientBuilder;
 
     public ProductResponse getProductById(Long id) {
-        Product product = repository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        String userServiceUrl = "http://user-service/users?id=" + product.getOwnerId();
+
+        ApiResponse<UserResponse> apiResponse = webClientBuilder.build()
+                .get()
+                .uri(userServiceUrl)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<ApiResponse<UserResponse>>() {})
+                .block();
+
+        if (apiResponse == null || apiResponse.getData() == null) {
+            throw new RuntimeException("User not found from user-service");
+        }
+
+        UserResponse userResponse = apiResponse.getData();
+
         ProductResponse productResponse = new ProductResponse();
         productResponse.setId(id);
         productResponse.setName(product.getName());
         productResponse.setSellPrice(product.getSellPrice());
-
-        String userServiceUrl = "http://localhost:8081/users?id=" + product.getOwnerId();
-        ResponseEntity<ApiResponse<UserResponse>> response = restTemplate.exchange(
-                userServiceUrl,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<ApiResponse<UserResponse>>() {}
-        );
-        UserResponse userResponse = Objects.requireNonNull(response.getBody()).getData();
         productResponse.setOwner(userResponse);
 
         return productResponse;
