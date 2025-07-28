@@ -24,19 +24,19 @@ public class ProductService {
 
     ProductRepository repository;
     WebClient.Builder webClientBuilder;
+    RestTemplate restTemplate;
 
     public ProductResponse getProductById(Long id) {
         Product product = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        String userServiceUrl = "http://user-service/users?id=" + product.getOwnerId();
-
-        ApiResponse<UserResponse> apiResponse = webClientBuilder.build()
-                .get()
-                .uri(userServiceUrl)
+        ApiResponse<UserResponse> apiResponse = webClientBuilder.build().get()
+                .uri("http://user-service/users?id=" + product.getOwnerId())
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<ApiResponse<UserResponse>>() {})
                 .block();
+
+//        ApiResponse<UserResponse> apiResponse = useRestTemplate(product.getOwnerId());
 
         if (apiResponse == null || apiResponse.getData() == null) {
             throw new RuntimeException("User not found from user-service");
@@ -51,5 +51,15 @@ public class ProductService {
         productResponse.setOwner(userResponse);
 
         return productResponse;
+    }
+
+    private ApiResponse<UserResponse> useRestTemplate(Long ownerId) {
+        ResponseEntity<ApiResponse<UserResponse>> response = restTemplate.exchange(
+                "http://user-service/users?id=" + ownerId,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ApiResponse<UserResponse>>() {}
+        );
+        return response.getBody();
     }
 }

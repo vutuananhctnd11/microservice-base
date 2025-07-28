@@ -4,33 +4,25 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @Builder
 @Entity
-@Table(name = "user")
+@Table(name = "role")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     Long id;
 
-    @Column(name = "username")
-    String username;
+    @Column(name = "role_name")
+    String roleName;
 
-    @Column(name = "password")
-    String password;
-
-    @Column(name = "full_name")
-    String fullName;
-
-    @Column(name = "age")
-    Integer age;
-
-    @ManyToOne
-    @JoinColumn(name = "role")
-    Role role;
+    @OneToMany(mappedBy = "role")
+    List<User> users;
 }
