@@ -32,6 +32,9 @@ public class Product {
     @Column(name = "description")
     String description;
 
+    @Column(name = "quantity")
+    Long quantity;
+
     @Column(name = "owner_id")
     Long ownerId;
 }
