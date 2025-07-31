@@ -12,7 +12,7 @@ public interface UserMapper {
 
     User toUser(CreateUserRequest request);
 
-    @Mapping(target = "role", ignore = true)
+//    @Mapping(target = "role", ignore = true)
     User toUser(CreateUserForAdminRequest request);
 
     UserResponse toUserResponse(User user);

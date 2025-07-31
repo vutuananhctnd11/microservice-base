@@ -1,4 +1,4 @@
-package com.example.order_service.dto;
+package com.example.order_service.dto.user;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -6,8 +6,8 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductOrderRequest {
-
-    Long id;
-    Long quantity;
+public class UserResponse {
+    int id;
+    String username;
+    String fullName;
 }

@@ -6,10 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
@@ -25,10 +27,7 @@ public class Order {
     @Column(name = "user_id")
     Long userId;
 
-    @Column(name = "total_price")
-    Long totalPrice;
-
-    @Column(name = "address")
-    String address;
+    @Column(name = "create_at")
+    LocalDateTime createAt;
 
 }

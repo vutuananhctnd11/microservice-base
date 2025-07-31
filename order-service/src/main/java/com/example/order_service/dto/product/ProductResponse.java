@@ -1,17 +1,16 @@
-package com.example.product_service.dto.product;
+package com.example.order_service.dto.product;
 
+import com.example.order_service.dto.user.UserResponse;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductInfoResponse {
+public class ProductResponse {
 
     Long id;
     String name;
-    Long importPrice;
     Long sellPrice;
-    String description;
-
+    UserResponse owner;
 }

@@ -78,5 +78,4 @@ public class UserService {
                 .role(user.getRole().getRoleName())
                 .build();
     }
-
 }

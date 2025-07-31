@@ -1,10 +1,7 @@
 package com.example.product_service.controller;
 
 import com.example.product_service.dto.ApiResponse;
-import com.example.product_service.dto.product.CreateProductRequest;
-import com.example.product_service.dto.product.ProductInfoResponse;
-import com.example.product_service.dto.product.ProductResponse;
-import com.example.product_service.dto.product.UpdateProductRequest;
+import com.example.product_service.dto.product.*;
 import com.example.product_service.service.ProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +41,12 @@ public class ProductController {
     @PutMapping
     public ResponseEntity<ApiResponse<ProductInfoResponse>> updateProduct(@RequestBody UpdateProductRequest request) {
         ApiResponse<ProductInfoResponse> response = new ApiResponse<>(productService.updateProduct(request));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/search-list")
+    public ResponseEntity<ApiResponse<List<CheckProductResponse>>> searchListProduct (@RequestBody List<Long> ids) {
+        ApiResponse<List<CheckProductResponse>> response = new ApiResponse<>(productService.getListProductById(ids));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

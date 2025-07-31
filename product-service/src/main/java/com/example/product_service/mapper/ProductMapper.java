@@ -1,14 +1,12 @@
 package com.example.product_service.mapper;
 
-import com.example.product_service.dto.product.CreateProductRequest;
-import com.example.product_service.dto.product.ProductInfoResponse;
-import com.example.product_service.dto.product.ProductResponse;
-import com.example.product_service.dto.product.UpdateProductRequest;
+import com.example.product_service.dto.product.*;
 import com.example.product_service.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface ProductMapper {
 
 //    @Mapping(target = "owner", ignore = true)
@@ -19,4 +17,6 @@ public interface ProductMapper {
     Product toProduct (CreateProductRequest request);
 
     void updateProduct (@MappingTarget Product product, UpdateProductRequest request);
+
+    CheckProductResponse toCheckProductResponse(Product product);
 }

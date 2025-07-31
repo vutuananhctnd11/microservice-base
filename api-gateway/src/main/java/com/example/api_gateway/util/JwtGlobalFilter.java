@@ -1,5 +1,6 @@
 package com.example.api_gateway.util;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -12,6 +13,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -54,11 +56,22 @@ public class JwtGlobalFilter implements GlobalFilter {
         try {
             byte[] keyBytes = Base64.getDecoder().decode(base64SignKey);
             SecretKey key = Keys.hmacShaKeyFor(keyBytes);
-            Jwts.parser()
+            Claims claims = Jwts.parser()
                     .verifyWith(key)
                     .build()
-                    .parseSignedClaims(token);
-            return chain.filter(exchange);
+                    .parseSignedClaims(token).getPayload();
+
+            String username = claims.getSubject();
+            String role = claims.get("role", String.class);
+
+            ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
+                    .header("X-Username", username)
+                    .header("X-Role", role)
+                    .build();
+
+            return chain.filter(exchange.mutate()
+                    .request(modifiedRequest)
+                    .build());
 
         } catch (JwtException ex) {
             log.error("JWT validation failed: {}", ex.getMessage());

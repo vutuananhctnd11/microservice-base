@@ -1,11 +1,8 @@
 package com.example.product_service.service;
 
 import com.example.product_service.dto.ApiResponse;
-import com.example.product_service.dto.product.CreateProductRequest;
-import com.example.product_service.dto.product.ProductInfoResponse;
-import com.example.product_service.dto.product.ProductResponse;
+import com.example.product_service.dto.product.*;
 import com.example.product_service.dto.UserResponse;
-import com.example.product_service.dto.product.UpdateProductRequest;
 import com.example.product_service.entity.Product;
 import com.example.product_service.exception.CustomException;
 import com.example.product_service.exception.ErrorCode;
@@ -25,6 +22,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -91,6 +89,18 @@ public class ProductService {
         productRepository.save(product);
         redisTemplate.delete("productList");
         return productMapper.toProductInfoResponse(product);
+    }
+
+    public List<CheckProductResponse> getListProductById (List<Long> ids) {
+        List<Product> products = productRepository.getListProductsById(ids);
+        System.out.println("PRODUCTS: " + products);
+//        return products.stream().map(productMapper::toCheckProductResponse).collect(Collectors.toList());
+        return products.stream().map( p ->
+                CheckProductResponse.builder()
+                        .id(p.getId())
+                        .name(p.getName())
+                        .status(p.getStatus())
+                        .build()).collect(Collectors.toList());
     }
 
 

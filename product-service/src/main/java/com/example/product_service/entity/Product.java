@@ -1,13 +1,12 @@
 package com.example.product_service.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@Getter
+@Setter
 @Entity
 @Table(name = "product")
 @AllArgsConstructor
@@ -32,9 +31,9 @@ public class Product {
     @Column(name = "description")
     String description;
 
-    @Column(name = "quantity")
-    Long quantity;
-
     @Column(name = "owner_id")
     Long ownerId;
+
+    @Column(name = "status")
+    String status;
 }

@@ -1,17 +1,17 @@
 package com.example.product_service.dto.product;
 
-import lombok.AccessLevel;
-import lombok.Data;
+
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductInfoResponse {
+@NoArgsConstructor
+@AllArgsConstructor
+public class CheckProductResponse {
 
     Long id;
     String name;
-    Long importPrice;
-    Long sellPrice;
-    String description;
-
+    String status;
 }
