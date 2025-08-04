@@ -1,4 +1,4 @@
-package com.example.inventory_service.dto.event;
+package com.example.common_event_dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

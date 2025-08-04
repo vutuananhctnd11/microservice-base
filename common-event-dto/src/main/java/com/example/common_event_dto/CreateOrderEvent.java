@@ -1,4 +1,4 @@
-package com.example.order_service.dto.order;
+package com.example.common_event_dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -6,12 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderItemEvent {
+import java.util.List;
 
-    Long productId;
-    Long quantity;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class CreateOrderEvent {
+
+    Long orderId;
+    Long userId;
+    List<OrderItemEvent> items;
 }
