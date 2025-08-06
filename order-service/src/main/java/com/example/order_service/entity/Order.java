@@ -30,4 +30,7 @@ public class Order {
     @Column(name = "create_at")
     LocalDateTime createAt;
 
+    @Column(name = "update_at")
+    LocalDateTime updateAt;
+
 }

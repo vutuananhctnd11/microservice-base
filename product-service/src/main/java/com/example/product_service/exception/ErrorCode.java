@@ -11,6 +11,8 @@ public enum ErrorCode {
 
     PRODUCT_NOT_FOUND ("Không tồn tại Sản phẩm này trong hệ thống!", HttpStatus.NOT_FOUND),
     UNAUTHORIZED("Bạn không có quyền sử dụng chức năng này!", HttpStatus.UNAUTHORIZED),
+    FIELD_NOT_BLANK("{name} không được để trống!", HttpStatus.BAD_REQUEST),
+    INVALID_SIZE_MIN("{name} phải có giá trị lớn hơn {min}!", HttpStatus.BAD_REQUEST),
     ;
 
     String message;

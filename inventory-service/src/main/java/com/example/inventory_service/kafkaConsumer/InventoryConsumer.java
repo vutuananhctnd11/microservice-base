@@ -1,6 +1,6 @@
 package com.example.inventory_service.kafkaConsumer;
 
-import com.example.inventory_service.dto.event.CreateOrderEvent;
+import com.example.common_event_dto.CreateOrderEvent;
 import com.example.inventory_service.service.InventoryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +15,9 @@ public class InventoryConsumer {
 
     InventoryService inventoryService;
 
-    @KafkaListener(topics = "order.created", groupId = "inventory-group",
-            containerFactory = "kafkaListenerContainerFactory")
-    public void handleOrderCreated(CreateOrderEvent event) {
-        inventoryService.createOrder(event);
+    @KafkaListener(topics = "inventory.update", groupId = "inventory-group")
+    public void handleUpdateInventory (String message) {
+        inventoryService.updateInventoryFromRedis(message);
     }
+
 }

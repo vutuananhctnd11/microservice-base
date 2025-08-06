@@ -1,4 +1,4 @@
-package com.example.common_event_dto;
+package com.example.inventory_service.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,5 +16,5 @@ public class CreateOrderEvent {
 
     Long orderId;
     Long userId;
-    List<OrderItemEvent> items;
+    List<OrderItem> items;
 }

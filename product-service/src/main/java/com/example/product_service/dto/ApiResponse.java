@@ -30,7 +30,7 @@ public class ApiResponse<T> {
 
     public ApiResponse(String message) {
         this.message = message;
-        this.status = "error";
+        this.status = "success";
         this.data = null;
     }
 }
